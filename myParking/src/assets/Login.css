@@ -1,0 +1,17 @@
+body{
+    font-family: 'Poppins',sans-serif;
+}
+
+.box-area{
+    width: 930px;
+}
+
+@media only screen and (max-width: 767px){
+    .box-area{
+        margin:0px 10px;
+    }
+    .left-box{
+        height: 100px;
+        overflow: hidden;
+    }
+}

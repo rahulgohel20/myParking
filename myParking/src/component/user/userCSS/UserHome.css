@@ -1,0 +1,9 @@
+.home{
+    background-image: linear-gradient(to right, rgb(255, 255, 255,.7), rgba(255, 255, 255,0)),url("/public/home-bg.png");
+    color: black;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: max-content;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}

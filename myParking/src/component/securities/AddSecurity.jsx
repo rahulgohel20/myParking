@@ -1,0 +1,105 @@
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
+
+export const AddSecurity = () => {
+
+  const {register,handleSubmit,formState:{errors}} = useForm()
+  const [lot, setlot] = useState([])
+  const id = useParams().id
+
+  const validationSchema = {
+    nameValidator:{
+            required:{
+                value:true,
+                message:"Name is Required*"
+            }
+        },
+        contactValidator:{
+          required:{
+                value:true,
+                message:"Mobile number is required*"
+            },  
+          //regex
+            pattern:{
+                //8
+                value:/[6-9]{1}[0-9]{9}/,
+                message:"contact is not valid*"
+            }
+
+        },
+        ageValidator:{
+            required:{
+                value:true,
+                message:"Age is required*"
+            },
+            min:{
+                value:18,
+                message:"min age 18*"
+            },
+            max:{
+                value:60,
+                message:"max age 60*"
+            }
+        },
+        emailValidator:{
+            required:{
+                value:true,
+                message:"email is required*"
+            }
+        }
+  }
+
+  const submitHandler = async(data)=>{
+    const res = await axios.post("/joinsecurity",data)
+    console.log(res.data)
+  }
+  const getParkingLotById = async()=>{
+        
+        const res =await axios.get("/displayparkinglot/"+ id)
+        console.log(res.data.data)
+        setlot(res.data.data)
+  }
+    useEffect(()=>{
+        getParkingLotById()
+    },[])
+  return (
+     <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-8">
+          <div className="card p-4 shadow">
+            <h2 className="text-center mb-4">Join at {lot.name}</h2>
+            <form onSubmit={handleSubmit(submitHandler)}>
+              <div className="mb-3">
+                <label className="form-label">Full Name</label>
+                <input type="text" className="form-control" placeholder='Full Name...' {...register("name",validationSchema.nameValidator)} />
+                <span style={{color:"red"}}>{errors.name?.message}</span>
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Email</label>
+                <input type="textarea" className="form-control" placeholder='Email...' {...register("email",validationSchema.emailValidator)} />
+                <span style={{color:"red"}}>{errors.email?.message}</span>
+              </div>
+              
+              <div className="mb-3">
+                <label className="form-label">Mobile</label>
+                <input type="tel" className="form-control" maxLength={10} placeholder='Mobile...' {...register("mobile",validationSchema.contactValidator)} />
+                <span style={{color:"red"}}>{errors.mobile?.message}</span>
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Age</label>
+                <input type="tel" className="form-control" placeholder='Age' {...register("age",validationSchema.ageValidator)} />
+                <span style={{color:"red"}}>{errors.age?.message}</span>
+              </div>
+              <div className='text-center'>
+                <input type="submit" className="btn btn-success w-50" value="Send"/>
+                
+              </div>      
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
