@@ -35,6 +35,7 @@ import { AdminSidebar } from './layouts/AdminSidebar'
 import { ViewCustomers } from './component/admin/ViewCustomers'
 import { ViewParkingOwner } from './component/admin/ViewParkingOwner'
 import { ViewSecurity } from './component/admin/ViewSecurity'
+import { Payment } from './component/user/Payment.Jsx'
 
 function App() {
 
@@ -103,6 +104,7 @@ function App() {
             </Route>
         <Route path='' element={<PrivateRoutes></PrivateRoutes>}>
         </Route>
+        <Route path='/payment' element={<Payment></Payment>}></Route>
       </Routes>
       {/* <Footer></Footer> */}
     </div>

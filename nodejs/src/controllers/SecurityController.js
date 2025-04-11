@@ -1,4 +1,6 @@
 const securityModel = require("../models/AddSecurity")
+const userModel = require("../models/UserModel")
+
 
 const joinSecurity = async(req,res)=>{
     try{
@@ -8,6 +10,7 @@ const joinSecurity = async(req,res)=>{
             data:savedSecurity
         })
         
+        
     }
     catch(err){
         res.status(500).json({
@@ -16,12 +19,14 @@ const joinSecurity = async(req,res)=>{
     }
 }
 
-const getAllVehicle = async(req,res)=>{
+
+
+const getAllSecuirty = async(req,res)=>{
     try{
-        const foundAllVehicle = await vehicleModel.find().populate("userId")
+        const foundAllSecurity = await securityModel.find().populate("securityId")
         res.status(201).json({
-            message:"Vehicle found..",
-            data:foundAllVehicle
+            message:"Security found..",
+            data:foundAllSecurity
         })
         
     }
@@ -32,12 +37,12 @@ const getAllVehicle = async(req,res)=>{
     }
 }
 
-const getVehicleById = async(req,res)=>{
+const getSecurityById = async(req,res)=>{
     
-        const foundVehicle = await vehicleModel.findById(req.params.id).populate("userId")
+        const foundSecurity = await securityModel.findById(req.params.id)
         res.status(201).json({
-            message:"Vehicle found..",
-            data:foundVehicle
+            message:"security found by id..",
+            data:foundSecurity
         })
         
     
@@ -57,5 +62,5 @@ const getVehicleByUserId = async(req,res)=>{
 }
 
 module.exports = {
-    joinSecurity,getAllVehicle,getVehicleById,getVehicleByUserId
+    joinSecurity,getAllSecuirty,getSecurityById,getVehicleByUserId
 }

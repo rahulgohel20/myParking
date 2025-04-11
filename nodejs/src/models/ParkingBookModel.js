@@ -59,8 +59,9 @@ const parkingBookSchema = Schema({
     paymentMethod:{
         type:String
     },
-    securityAmountPaid:{
-        type:Number
+    checkout:{
+        type:Boolean,
+        default:false
     },
     
 

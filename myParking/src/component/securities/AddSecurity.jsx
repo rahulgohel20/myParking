@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 export const AddSecurity = () => {
 
@@ -54,6 +55,19 @@ export const AddSecurity = () => {
   const submitHandler = async(data)=>{
     const res = await axios.post("/joinsecurity",data)
     console.log(res.data)
+    const updateJobActive = await axios.post("/updatejobactive/"+localStorage.getItem("id"))
+    console.log(updateJobActive.data)
+    if(res.status===201){
+              Swal.fire({
+                title: "Your Joinig is Suucessfully!",
+                icon: "success",
+                
+              });
+              navigate("/security"); // Redirect to Login Page
+    
+              
+            }
+
   }
   const getParkingLotById = async()=>{
         

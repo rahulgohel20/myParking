@@ -19,6 +19,15 @@ const deleteParkingBook = async(req,res)=>{
     })
 }
 
+const getParkingBookById = async(req,res)=>{
+    const foundBooked = await parkingBookModel.findById(req.params.id).populate("userId").populate("parkingLotId").populate("vehicleId")
+
+    res.json({
+        message:"Data found...",
+        data:foundBooked
+    })
+}
+
 const getParkingBook = async(req,res)=>{
     const parkingLotId = req.params.parkingLotId
     const foundBooked = await parkingBookModel.find({parkingLotId:parkingLotId}).populate("userId").populate("parkingLotId").populate("vehicleId")
@@ -40,6 +49,39 @@ const getAllParkingBook= async(req,res)=>{
     })
 }
 
+const updatePaymentStatus = async(req,res)=>{
+    try{
+
+        const PaymentStatus = await parkingBookModel.findByIdAndUpdate(req.params.id,{paymentStatus:"Completed"},{new:true})
+        res.status(201).json({
+            message:"Payment Status changed..",
+            data:PaymentStatus
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:err
+        })
+    }
+    
+}
+
+const updateCheckout = async(req,res)=>{
+    try{
+
+        const checkout = await parkingBookModel.findByIdAndUpdate(req.params.id,{checkout:true},{new:true})
+        res.status(201).json({
+            message:"checked out..",
+            data:checkout
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:err
+        })
+    }
+    
+}
 // const updatePaymentStatus = async (req, res) => {
 //   //update tablename set  ? where id = ?
 //   //update new data -->req.body
@@ -85,5 +127,5 @@ const getParkingSlotBookedByStateCityAreaLotId =async (req,res)=>{
 }
 
 module.exports = {
-    parkingBook,deleteParkingBook,getAllParkingBook,getParkingBook,getParkingSlotBookedByStateCityAreaLotId
+    parkingBook,deleteParkingBook,getAllParkingBook,getParkingBook,getParkingSlotBookedByStateCityAreaLotId,updatePaymentStatus,updateCheckout,getParkingBookById
 }

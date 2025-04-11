@@ -38,9 +38,11 @@ const signUp = async(req,res)=>{
             const userCreated = await userModel.create(req.body)
             
             const mailContent = `<html>
-                                <p>this is welcome page</p>
+                                <h6>Thank you for Registration in My Parking</h6>
+                                <p>Booked Your Slot and Safe your vehicle</p><br/>
+                                <p>Thank You :)</p>
                             </html>`
-            const emailmsg=await mailUtil.sendingMail(userCreated.email,"welcome to MyParking",mailContent)
+            const emailmsg=await mailUtil.sendingMail(userCreated.email,"welcome to MyParking ",mailContent)
             
             console.log(emailmsg)
             res.status(201).json({
@@ -157,6 +159,23 @@ const getUserBySecurity = async(req,res)=>{
     })
 }
 
+const updateJobActive = async(req,res)=>{
+    try{
+
+        const changeStatus = await userModel.findByIdAndUpdate(req.params.id,{jobActive:true},{new:true})
+        res.status(201).json({
+            message:"Security active status changed..",
+            data:changeStatus
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:err
+        })
+    }
+    
+}
+
 // const addUserWithFile = async (req, res) => {
 //   upload(req, res, async (err) => {
 //     if (err) {
@@ -233,5 +252,5 @@ const resetPassword = async(req,res)=>{
 
 
 module.exports = {
-    addUser,deleteUser,getAllUsers,getUser,signUp,userLogin,forgotPassword,resetPassword,getUserByCustomer,getUserByParkingOwner,getUserBySecurity
+    addUser,deleteUser,getAllUsers,getUser,signUp,userLogin,forgotPassword,resetPassword,getUserByCustomer,getUserByParkingOwner,getUserBySecurity,updateJobActive
 }

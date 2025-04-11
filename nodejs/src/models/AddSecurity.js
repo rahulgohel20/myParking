@@ -7,9 +7,13 @@ const securitySchema = new Schema({
         required:true,
 
     },
-    lotId:{
+    // lotId:{
+    //     type:Schema.Types.ObjectId,
+    //     ref:"parkinglots"
+    // },
+    securityId:{
         type:Schema.Types.ObjectId,
-        ref:"parkinglots"
+        ref:"users"
     },
     email:{
         type:String,

@@ -1,14 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Link, Outlet } from "react-router-dom";
 import { Header } from "./Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faBook, faEye, faGauge, faUser } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 export const SecuritySidebar = () => {
   //for closing sidebar...
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [security, setsecurity] = useState([])
+  const id = localStorage.getItem("id")
   
+  const getSecurity = async()=>{
+      
+      const res = await axios.get("/users/"+id)
+      console.log(res.data  )
+      setsecurity(res.data.data)
+  }
+  
+  useEffect(()=>{
+    getSecurity()
+  },[])
 
   
   const toggleSidebar = () => {
@@ -60,10 +73,10 @@ export const SecuritySidebar = () => {
             >
               <li className="nav-item menu-open">
                 
-                <Link to="viewparkinglots" className="nav-link active text-decoration-none text-white">
+                <Link to={security.jobActive?"viewslotbooked":"viewparkinglots"} className="nav-link active text-decoration-none text-white">
                   <FontAwesomeIcon icon={faEye}/>
                   <p>
-                    View Parking Lots
+                    {security.jobActive ? "View Slot Booked" : "View Parking Lot"}
                   </p>
                 </Link>
                 <hr className="text-light"/>

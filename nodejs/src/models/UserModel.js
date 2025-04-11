@@ -29,6 +29,10 @@ const userSchema = new Schema({
     role:{
         type:String
     },
+    jobActive:{
+        type:Boolean,
+        default:false
+    }
     // areaId:{
     //     type:Schema.Types.ObjectId,
     //     ref:"areas",

@@ -46,6 +46,9 @@ app.use(securityRoute)
 const adminRoute = require("./src/routes/AdminRoute")
 app.use(adminRoute)
 
+const razorpayRoutes = require("./src/routes/RazorpayRoute")
+app.use("/payment", razorpayRoutes)
+
 mongoose.connect("mongodb://127.0.0.1:27017/myParking").then(()=>{
     console.log("database connected....")
 })

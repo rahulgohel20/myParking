@@ -134,7 +134,6 @@ const submitHandler=async(data)=>{
                     <th>Amount Pay</th>
                     <th>Payment Method</th>
                     <th>Payment Status</th>
-                    <th colSpan="2">Action</th>
                     
                   </tr>
                 </thead>
@@ -154,9 +153,7 @@ const submitHandler=async(data)=>{
                         <td>{slot.endTime}</td>
                         <td>{slot.price}</td>
                         <td>{slot.paymentMethod}</td>
-                        <td>Pending</td>
-                        <td><Link to={`/parkingowner/updateparkinglot/${slot._id}`}><button type='submit' className='btn btn-warning'>Update</button></Link></td>
-                        <td><Link className="btn btn-danger" onClick={()=>{deleteSlot(slot._id)}}>Delete</Link></td>
+                        <td>{slot.paymentStatus}</td>
                       </tr>
                       // }
                       
