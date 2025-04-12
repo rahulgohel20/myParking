@@ -79,7 +79,8 @@ export const Login = () => {
           navigate("/security"); // Redirect to security Page
       
         }
-        if(localStorage.getItem("role")==="Admin" && data.password === "admin0820"){
+        if(localStorage.getItem("role")==="Admin"){
+          localStorage.setItem("id",res.data.data._id)
           Swal.fire({
             title: "Login successfully :)",
             text: "Welcome Admin Panel",

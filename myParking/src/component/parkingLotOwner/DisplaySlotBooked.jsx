@@ -1,40 +1,24 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { set, useForm } from 'react-hook-form';
+// import { Link } from 'react-router-dom';
 
 export const DisplaySlotBooked = () => {
-    const [states, setStates] = useState([]);
-    const [cities, setCities] = useState([]);
-    const [areas, setAreas] = useState([]);
-    const [lots, setlots] = useState([])
+    const [lot, setlot] = useState([]);
     const [slots, setslots] = useState([])
     const {register,handleSubmit} = useForm()
 
 
-    const getAllStates = async () => {
-    const res = await axios.get("/state/allstate");
+    
+
+  const getAllLot = async ()=>{
+    const res = await axios.get("/parkinglot/"+localStorage.getItem("id"))
     console.log(res.data)
-    setStates(res.data.data);
-  };
-
-  const getCityByStateId = async (id) => {
-    const res = await axios.get("/city/getcitybystate/" + id);
-    setCities(res.data.data);
-  };
-
-  const getAreaByCityId = async (id) => {
-    const res = await axios.get("/area/getareabycity/" + id);
-    setAreas(res.data.data);
-  };
-
-  const getLotByAreaId = async (id) => {
-    const res = await axios.get("/getlotbyarea/" + id);
-    setlots(res.data.data);
-  };
+    setlot(res.data.data)
+  }
 
   useEffect(() => {
-    getAllStates();
+    getAllLot();
   }, []);
 
 const deleteSlot=async()=>{
@@ -54,7 +38,7 @@ const submitHandler=async(data)=>{
     const lotId = data.parkingLotId
         console.log(lotId)
 
-    const res = await axios.get("/showparkingbooked/"+stateId+"/"+cityId+"/"+areaId+"/"+lotId)
+    const res = await axios.get("/parkingbook/"+lotId)
     console.log(res.data)
     setslots(res.data.data)
   }
@@ -68,54 +52,17 @@ const submitHandler=async(data)=>{
             <div className='mb-5'>
                 <form onSubmit={handleSubmit(submitHandler)}>
                         
-                        <div className='row mb-3'>
-                            <div className='col mb-3'>
-                                <label className="form-label">Select State</label>
-                                    <select
-                                    className="form-select"
-                                    {...register("stateId")}
-                                    onChange={(event) => getCityByStateId(event.target.value)}
-                                    >
-                                    <option>SELECT STATE</option>
-                                    {states?.map((state) => (
-                                        <option key={state._id} value={state._id}>{state.name}</option>
-                                    ))}
-                                    </select>
-                            </div>
-                            <div className="col mb-3">
-                                <label className="form-label">Select City</label>
-                                <select
-                                className="form-select"
-                                {...register("cityId")}
-                                onChange={(event) => getAreaByCityId(event.target.value)}
-                                >
-                                <option>SELECT CITY</option>
-                                {cities?.map((city) => (
-                                    <option key={city._id} value={city._id}>{city.name}</option>
-                                ))}
-                                </select>
-                            </div>
-                            <div className="col mb-3">
-                                <label className="form-label">Select Area</label>
-                                <select className="form-select" {...register("areaId")}
-                                onChange={(event) => getLotByAreaId(event.target.value)}>
-                                <option>SELECT AREA</option>
-                                {areas?.map((area) => (
-                                    <option key={area._id} value={area._id}>{area.name}</option>
-                                ))}
-                                </select>
-                            </div>
-                            <div className="col mb-3">
-                                <label className="form-label">Select Lot</label>
+                        <div className='container w-50 d-flex justify-content-center align-items-center  mb-3'>
+                              <div className="col mb-3">
                                 <select className="form-select" {...register("parkingLotId")}>
                                 <option>SELECT LOT</option>
-                                {lots?.map((lot) => (
+                                {lot?.map((lot) => (
                                     <option key={lot._id} value={lot._id}>{lot.name}</option>
                                 ))}
                                 </select>
                             </div>
                         </div>
-                        <div className='text-center w-100'>
+                        <div className='text-center container w-50 d-flex justify-content-center align-items-center'>
                             <input type="submit" value="Search" className='btn btn-success w-50'/>
                         </div>
                     </form>

@@ -57,7 +57,8 @@ const parkingBookSchema = Schema({
         type:Number
     },
     paymentMethod:{
-        type:String
+        type:String,
+        default:"Razorpay"
     },
     checkout:{
         type:Boolean,

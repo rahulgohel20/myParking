@@ -54,10 +54,8 @@ export const ViewParkingOwner = () => {
                     <th>Name</th>
                     <th>Email</th>
                     <th>Gender</th>
-                    <th>Password</th>
                     <th>Mobile</th>
                     
-                    <th colSpan="2">Action</th>
                     
                   </tr>
                 </thead>
@@ -69,12 +67,9 @@ export const ViewParkingOwner = () => {
                         <td>{owner.name}</td>
                         <td>{owner.email}</td>
                         <td>{owner.gender}</td>
-                        <td>{owner.password}</td>
                         <td>{owner.mobile}</td>
                         
                         
-                        <td><Link to={`/parkingowner/updateparkinglot/${owner._id}`}><input type='submit' className='btn btn-warning' value="Update"/></Link></td>
-                        <td><Link className="btn btn-danger" onClick={()=>{deleteLot(owner._id)}}>Delete</Link></td>
 
                       </tr>
                       // }

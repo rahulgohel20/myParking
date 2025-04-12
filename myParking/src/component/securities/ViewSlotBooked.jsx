@@ -10,6 +10,9 @@ export const ViewSlotBooked = () => {
 
 
     const getAllSlotBooked = async () => {
+    const sec = await axios.get("/getsecurity/"+localStorage.getItem("id"))
+    console.log(sec.data.data[0].securityId._id)
+    // localStorage.setItem("parkingLotId",sec.data.data.parkingLotId)
     const res = await axios.get("/parkingbook/"+localStorage.getItem("parkingLotId"));
     console.log(res.data)
     setslots(res.data.data);
@@ -30,15 +33,25 @@ export const ViewSlotBooked = () => {
   }
 
   const checkout = async(id)=>{
-    // console.log(id)
-    // const bookeddata = await axios.get("/parkingbookbyid/"+id)
-    // console.log(bookeddata.data)
-    // if(bookeddata.data.data.vehicleId.vehicleType==="2 Wheeler"){
+    console.log(id)
+    const bookeddata = await axios.get("/parkingbookbyid/"+id)
+    console.log(bookeddata.data)
+    if(bookeddata.data.data.vehicleId.vehicleType==="2 Wheeler"){
 
-    //   const slot = bookeddata.data.data.parkingLotId.totalCapacityOfTwoWheeler + 1
-    //   const slotupdate = await axios.post("/updateparkingtwoslot/"+localStorage.getItem("parkingLotId"),slot)
-    //   console.log(slotupdate.data)
-    // }
+      const slot = bookeddata.data.data.parkingLotId.totalCapacityOfTwoWheeler + 1
+      console.log(slot)
+      const slotupdate = await axios.post("/increaseparkingtwoslot/"+localStorage.getItem("parkingLotId")+"/"+slot)
+      console.log(slotupdate.data)
+    }
+
+    if(bookeddata.data.data.vehicleId.vehicleType==="4 Wheeler"){
+
+      const slot = bookeddata.data.data.parkingLotId.totalCapacityOfFourWheeler + 1
+      console.log(slot)
+      const slotupdate = await axios.post("/increaseparkingfourslot/"+localStorage.getItem("parkingLotId")+"/"+slot)
+      console.log(slotupdate.data)
+    }
+
     const res = await axios.post("/updatecheckout/"+id)
     console.log(res.data)
 

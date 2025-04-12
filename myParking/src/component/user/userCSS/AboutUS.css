@@ -1,0 +1,29 @@
+.aboutus {
+    background-image: linear-gradient(to right, rgba(68, 68, 68, 0.7), rgba(255, 255, 255, 0)), url("/public/aboutUs.jpeg");
+    color: black;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 50vh;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+
+.dot-line::before {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: #d6e0ff;
+    position: relative;
+}
+
+.dot-line::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background-color: #f44336;
+    border-radius: 50%;
+    position: absolute;
+    top: -4px;
+    left: 50px;
+}

@@ -176,6 +176,22 @@ const updateJobActive = async(req,res)=>{
     
 }
 
+const totalUser = async(req,res)=>{
+    try{
+        const totalUsers = await userModel.countDocuments();
+        res.status(201).json({
+            message:"total user fetched..",
+            data:totalUsers
+        })
+
+    }
+    catch(err){
+        res.status(500).json({
+            message:err
+        })
+    }
+}
+
 // const addUserWithFile = async (req, res) => {
 //   upload(req, res, async (err) => {
 //     if (err) {
@@ -252,5 +268,5 @@ const resetPassword = async(req,res)=>{
 
 
 module.exports = {
-    addUser,deleteUser,getAllUsers,getUser,signUp,userLogin,forgotPassword,resetPassword,getUserByCustomer,getUserByParkingOwner,getUserBySecurity,updateJobActive
+    addUser,deleteUser,getAllUsers,getUser,signUp,userLogin,forgotPassword,resetPassword,getUserByCustomer,getUserByParkingOwner,getUserBySecurity,updateJobActive,totalUser
 }

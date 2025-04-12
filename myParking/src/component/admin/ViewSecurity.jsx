@@ -7,7 +7,7 @@ export const ViewSecurity = () => {
     const [security, setsecurity] = useState([])
       
         const getAllSecurity = async () => {
-        const res = await axios.get("/userbysecurity");
+        const res = await axios.get("/security");
         console.log(res.data.data)
       
         setsecurity(res.data.data);
@@ -26,9 +26,9 @@ export const ViewSecurity = () => {
           confirmButtonText: "Yes, delete it!"
         }).then(async(result) => {
           if(result.isConfirmed) {
-            const del = await axios.delete("/deleteparkinglot/" + id)
+            const del = await axios.delete("/deletesecurity/" + id)
             console.log(del.data)
-            getAllLots()
+            getAllSecurity()
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -54,10 +54,9 @@ export const ViewSecurity = () => {
                     <th>Name</th>
                     <th>Email</th>
                     <th>Gender</th>
-                    <th>Password</th>
                     <th>Mobile</th>
-                    
                     <th colSpan="2">Action</th>
+
                     
                   </tr>
                 </thead>
@@ -69,11 +68,8 @@ export const ViewSecurity = () => {
                         <td>{security.name}</td>
                         <td>{security.email}</td>
                         <td>{security.gender}</td>
-                        <td>{security.password}</td>
                         <td>{security.mobile}</td>
-                        
-                        
-                        <td><Link to={`/parkingowner/updateparkinglot/${security._id}`}><input type='submit' className='btn btn-warning' value="Update"/></Link></td>
+                        <td><Link to={`/adminpanel/updatesecurity/${security._id}`}><input type='submit' className='btn btn-warning' value="Update"/></Link></td>
                         <td><Link className="btn btn-danger" onClick={()=>{deleteLot(security._id)}}>Delete</Link></td>
 
                       </tr>

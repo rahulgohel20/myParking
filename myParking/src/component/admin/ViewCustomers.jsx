@@ -54,10 +54,8 @@ export const ViewCustomers = () => {
                     <th>Name</th>
                     <th>Email</th>
                     <th>Gender</th>
-                    <th>Password</th>
                     <th>Mobile</th>
                     
-                    <th colSpan="2">Action</th>
                     
                   </tr>
                 </thead>
@@ -69,12 +67,9 @@ export const ViewCustomers = () => {
                         <td>{cust.name}</td>
                         <td>{cust.email}</td>
                         <td>{cust.gender}</td>
-                        <td>{cust.password}</td>
                         <td>{cust.mobile}</td>
                         
                         
-                        <td><Link to={`/parkingowner/updateparkinglot/${cust._id}`}><input type='submit' className='btn btn-warning' value="Update"/></Link></td>
-                        <td><Link className="btn btn-danger" onClick={()=>{deleteLot(cust._id)}}>Delete</Link></td>
 
                       </tr>
                       // }

@@ -39,12 +39,13 @@ export const Payment = () => {
       alert("Razorpay SDK failed to load. Are you online?");
       return;
     }
-
+    const user = await axios.get("/users/"+localStorage.getItem("id"))
+    console.log(user.data)
     const options = {
       key: "rzp_test_Rvw64YFpVeyrZN",
       amount: orderData.amount,
       currency: orderData.currency,
-      name: "Test Corp",
+      name: "My Parking",
       description: "Test Transaction",
       order_id: orderData.id,
       handler: async function (response) {
@@ -72,7 +73,7 @@ export const Payment = () => {
       prefill: {
         name: "Test User",
         email: "test@example.com",
-        contact: "9999999999",
+        contact: user.data.data.mobile,
       },
       theme: {
         color: "#61dafb",

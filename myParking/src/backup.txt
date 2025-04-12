@@ -1,0 +1,20 @@
+const getAllStates = async () => {
+    const res = await axios.get("/state/allstate");
+    console.log(res.data)
+    setStates(res.data.data);
+  };
+
+  const getCityByStateId = async (id) => {
+    const res = await axios.get("/city/getcitybystate/" + id);
+    setCities(res.data.data);
+  };
+
+  const getAreaByCityId = async (id) => {
+    const res = await axios.get("/area/getareabycity/" + id);
+    setAreas(res.data.data);
+  };
+
+  const getLotByAreaId = async (id) => {
+    const res = await axios.get("/getlotbyarea/" + id);
+    setlots(res.data.data);
+  };

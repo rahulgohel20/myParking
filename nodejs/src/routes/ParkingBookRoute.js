@@ -10,6 +10,6 @@ routes.delete("/parkingbook/:id",parkingBookController.deleteParkingBook)
 routes.get("/showparkingbooked/:stateId/:cityId/:areaId/:parkingLotId",parkingBookController.getParkingSlotBookedByStateCityAreaLotId)
 routes.post("/updatepaymentstatus/:id",parkingBookController.updatePaymentStatus)
 routes.post("/updatecheckout/:id",parkingBookController.updateCheckout)
-
+routes.get("/totalslotbooked",parkingBookController.totalSlotBooked)
 
 module.exports = routes

@@ -11,5 +11,8 @@ routes.post("/updateparkingfourslot/:id",parkingLotController.updateFourSlotById
 routes.get("/getlotbyarea/:areaId",parkingLotController.getLotByAreaId)
 routes.put("/updateparkinglot/:id",parkingLotController.updateParkingLot)
 routes.delete("/deleteparkinglot/:id",parkingLotController.deleteParkingLot)
+routes.post("/increaseparkingtwoslot/:parkingLotId/:slot",parkingLotController.increaseTwoSlotById)
+routes.post("/increaseparkingfourslot/:parkingLotId/:slot",parkingLotController.increaseFourSlotById)
+routes.get("/totalparkinglot",parkingLotController.totalParkingLot)
 
 module.exports = routes

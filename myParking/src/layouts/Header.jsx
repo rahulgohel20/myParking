@@ -43,16 +43,7 @@ export const Header = ({ toggleSidebar }) => {
               {/* <img src={hamburgermenu} style={{height:"25px",width:"25px"}}></img> */}
             </a>
           </li>
-          <li className="nav-item d-none d-md-block">
-            <a href="#" className="nav-link">
-              Home
-            </a>
-          </li>
-          <li className="nav-item d-none d-md-block">
-            <a href="#" className="nav-link">
-              Contact
-            </a>
-          </li>
+          
         </ul>
 
         <ul className="navbar-nav ms-auto">

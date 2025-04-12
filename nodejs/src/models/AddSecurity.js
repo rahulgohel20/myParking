@@ -15,6 +15,10 @@ const securitySchema = new Schema({
         type:Schema.Types.ObjectId,
         ref:"users"
     },
+    parkingLotId:{
+        type:Schema.Types.ObjectId,
+        ref:"parkinglots"
+    },
     email:{
         type:String,
         required:true,

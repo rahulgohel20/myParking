@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 
 
-export const AddParkingLot = () => {
+export const UpdateLot = () => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [areas, setAreas] = useState([]);
@@ -27,36 +27,61 @@ export const AddParkingLot = () => {
     const res = await axios.get("/area/getareabycity/" + id);
     setAreas(res.data.data);
   };
-  useEffect(() => {
-    getAllStates();
-  }, []);
+  
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue} = useForm();
   const navigate = useNavigate()
+  const id = useParams().id
+//   const [getLot, setgetLot] = useState([])
+
+useEffect(() => {
+    getAllStates(),getParkingLot();
+  }, []);
+  const getParkingLot = async()=>{
+
+    const getlot = await axios.get("/displayparkinglot/" + id)
+    const lot = getlot.data.data
+    
+    setValue("name",lot.name)
+    setValue("title",lot.title)
+    setValue("totalCapacityOfTwoWheeler",lot.totalCapacityOfTwoWheeler)
+    setValue("totalCapacityOfFourWheeler",lot.totalCapacityOfFourWheeler)
+    setValue("otherInfo",lot.otherInfo)
+    setValue("parkingType",lot.parkingType)
+    setValue("HourlyChargeTwoWheeler",lot.HourlyChargeTwoWheeler)
+    setValue("HourlyChargeFourWheeler",lot.HourlyChargeFourWheeler)
+    setValue("latitude",lot.latitude)
+    setValue("longitude",lot.longitude) 
+
+
+  }
+
   const submitHandler = async (data) => {
     data.ownerId = localStorage.getItem("id");
-    const res = await axios.post("/addparkinglot", data);
-    localStorage.setItem("parkingLotId",res.data.data._id)
+    console.log(data)
+    const res = await axios.put("/updateparkinglot/" + id, data);
+    // localStorage.setItem("parkingLotId",res.data.data._id)
     console.log(res.data);
     
     if(res.status===201){
-          Swal.fire({
-            title: "Parking Lot Added!",
-            icon: "success",
-            
-          });
-          navigate("/parkingowner/viewlots"); // Redirect to Login Page
-
           
-        }
+        Swal.fire({
+          title: "Parking Lot Updated!",
+          icon: "success",
+          
+        });
+          
+        navigate("/adminpanel/viewparkinglots"); // Redirect to Login Page
+      
+    }
   };
 
   return (
-    <div className="container mt-5 vh-100 overflow-scroll">
+    <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div className="card p-4 shadow">
-            <h2 className="text-center mb-4">Add Parking Lot</h2>
+            <h2 className="text-center mb-4">Update Parking Lot</h2>
             <form onSubmit={handleSubmit(submitHandler)}>
               <div className="mb-3">
                 <label className="form-label">Name</label>
@@ -87,8 +112,9 @@ export const AddParkingLot = () => {
                 <label className="form-label">Hourly Charge Four Wheeler</label>
                 <input type="tel" className="form-control" {...register("HourlyChargeFourWheeler")} />
               </div>
-              <div className="input-group w-100 mb-3">
-                  
+              <div className="mb-3">
+                
+                <label className="form-label">Parking Type</label>
                 <select {...register("parkingType")} className='form-select form-select-lg bg-light fs-6 ' id='role'>
                   <option value="select" >Parking Type</option>
                   <option value="Road">Road</option>
@@ -140,7 +166,7 @@ export const AddParkingLot = () => {
                 <label className="form-label">Longitude</label>
                 <input type="tel" className="form-control" {...register("longitude")} />
               </div>
-              <input type="submit" className="btn btn-success w-100" value="Add"/>
+              <input type="submit" className="btn btn-success w-100" value="Update"/>
             </form>
           </div>
         </div>

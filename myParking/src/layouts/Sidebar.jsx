@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { Header } from "./Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faBook, faEye, faGauge, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faBook, faBookOpenReader, faCheckToSlot, faEye, faGauge, faUser } from "@fortawesome/free-solid-svg-icons";
 
 export const Sidebar = () => {
   //for closing sidebar...
@@ -18,12 +18,12 @@ export const Sidebar = () => {
 
   return (
     <>
-    
+      
       <Header toggleSidebar={toggleSidebar} />
 
     
       <aside
-        className={`app-sidebar bg-body-secondary shadow ${
+        className={`app-sidebar overflow-y-hidden bg-body-secondary shadow ${
           isSidebarOpen ? "open" : "d-none"
         }`}
         data-bs-theme="dark"
@@ -70,7 +70,7 @@ export const Sidebar = () => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <Link to="viewlots" className="nav-link active text-white">
-                      <FontAwesomeIcon icon={faEye}/>
+                      <FontAwesomeIcon icon={faCheckToSlot} />
                       <p>
                         View My Lot
                       </p>
@@ -81,7 +81,7 @@ export const Sidebar = () => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <Link to="displayslotbooked" className="nav-link active text-white">
-                      <FontAwesomeIcon icon={faEye}/>
+                      <FontAwesomeIcon icon={faBookOpenReader} />
                       <p>
                         Slot Booked
                       </p>
@@ -89,7 +89,7 @@ export const Sidebar = () => {
                     <hr className="text-light"/>
                   </li>
                 </ul>
-                <ul className="nav nav-treeview">
+                {/* <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <Link to="viewcharts" className="nav-link active text-white">
                       <FontAwesomeIcon icon={faEye}/>
@@ -99,7 +99,7 @@ export const Sidebar = () => {
                     </Link>
                     <hr className="text-light"/>
                   </li>
-                </ul>
+                </ul> */}
               </li>
               
               {/* <li className="nav-item">

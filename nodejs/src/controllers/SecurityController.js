@@ -1,5 +1,4 @@
 const securityModel = require("../models/AddSecurity")
-const userModel = require("../models/UserModel")
 
 
 const joinSecurity = async(req,res)=>{
@@ -23,7 +22,7 @@ const joinSecurity = async(req,res)=>{
 
 const getAllSecuirty = async(req,res)=>{
     try{
-        const foundAllSecurity = await securityModel.find().populate("securityId")
+        const foundAllSecurity = await securityModel.find().populate("securityId").populate("parkingLotId")
         res.status(201).json({
             message:"Security found..",
             data:foundAllSecurity
@@ -39,7 +38,7 @@ const getAllSecuirty = async(req,res)=>{
 
 const getSecurityById = async(req,res)=>{
     
-        const foundSecurity = await securityModel.findById(req.params.id)
+        const foundSecurity = await securityModel.findById(req.params.id).populate("securityId").populate("parkingLotId")
         res.status(201).json({
             message:"security found by id..",
             data:foundSecurity
@@ -49,18 +48,81 @@ const getSecurityById = async(req,res)=>{
     
 }
 
-const getVehicleByUserId = async(req,res)=>{
-    
-        const foundVehicle = await vehicleModel.find({userId:req.params.userId}).populate("userId")
+const getSecurityByUserId = async(req,res)=>{
+    try{
+
+        const foundsecurity = await securityModel.find({securityId:req.params.securityId}).populate("securityId").populate("parkingLotId")
         res.status(201).json({
-            message:"Vehicle found..",
-            data:foundVehicle
+            message:"security found..",
+            data:foundsecurity
         })
+    }
+    catch (err) {
+    res.status(500).json({
+      message: "error while update parking lot",
+      err: err,
+    });
         
-    
+}
     
 }
 
+const updateSecurity = async (req, res) => {
+  //update tablename set  ? where id = ?
+  //update new data -->req.body
+  //id -->req.params.id
+
+  try {
+    const security = await securityModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(201).json({
+      message: "Security updated successfully",
+      data: security,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "error while update parking lot",
+      err: err,
+    });
+  }
+};
+
+const deleteSecurity = async(req,res)=>{
+    try{
+        const deleted = await securityModel.findByIdAndDelete(req.params.id)
+    res.status(200).json({
+      message: "Security deleted successfully",
+      data: deleted,
+    });
+    }
+    catch(err){
+        res.status(500).json({
+      message: "error while delete parking lot",
+      err: err,
+    });
+    }
+}
+
+
+const totalSecuirty = async(req,res)=>{
+    try{
+        const totalsecurity = await securityModel.countDocuments();
+        res.status(201).json({
+            message:"total security fetched..",
+            data:totalsecurity
+        })
+
+    }
+    catch(err){
+        res.status(500).json({
+            message:err
+        })
+    }
+}
+
 module.exports = {
-    joinSecurity,getAllSecuirty,getSecurityById,getVehicleByUserId
+    joinSecurity,getAllSecuirty,getSecurityById,getSecurityByUserId,totalSecuirty,updateSecurity,deleteSecurity
 }

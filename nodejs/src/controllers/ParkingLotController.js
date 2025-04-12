@@ -165,6 +165,40 @@ const updateTwoSlotById = async(req,res)=>{
     }
 }
 
+const increaseTwoSlotById = async(req,res)=>{
+    try{
+        var slotAvl = req.params.slot
+        const UpdatedSlot = await parkingLotModel.findByIdAndUpdate(req.params.parkingLotId,{totalCapacityOfTwoWheeler:slotAvl},{new:true})
+        res.status(201).json({
+            message:"increased...",
+            data:UpdatedSlot
+        })
+
+    }
+    catch(err){
+        res.status(500).json({
+            message:err
+        })
+    }
+}
+
+const increaseFourSlotById = async(req,res)=>{
+    try{
+        var slotAvl = req.params.slot
+        const UpdatedSlot = await parkingLotModel.findByIdAndUpdate(req.params.parkingLotId,{totalCapacityOfTwoWheeler:slotAvl},{new:true})
+        res.status(201).json({
+            message:"increased...",
+            data:UpdatedSlot
+        })
+
+    }
+    catch(err){
+        res.status(500).json({
+            message:err
+        })
+    }
+}
+
 const updateFourSlotById = async(req,res)=>{
     try{
         var slotAvl = req.body.totalCapacityOfFourWheeler
@@ -182,6 +216,24 @@ const updateFourSlotById = async(req,res)=>{
     }
 }
 
+
+const totalParkingLot = async(req,res)=>{
+    try{
+        const totalLot = await parkingLotModel.countDocuments();
+        res.status(201).json({
+            message:"total Lots fetched..",
+            data:totalLot
+        })
+
+    }
+    catch(err){
+        res.status(500).json({
+            message:err
+        })
+    }
+}
+
+
 module.exports = {
-    addParkingLot,getAllParkingLot,getParkingLotById,getParkingLotByStateCity,getParkingLotByLotId,updateTwoSlotById,updateFourSlotById,getLotByAreaId,updateParkingLot,deleteParkingLot
+    addParkingLot,getAllParkingLot,getParkingLotById,getParkingLotByStateCity,getParkingLotByLotId,updateTwoSlotById,updateFourSlotById,getLotByAreaId,updateParkingLot,deleteParkingLot,increaseTwoSlotById,increaseFourSlotById,totalParkingLot
 }

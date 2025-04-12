@@ -4,14 +4,15 @@ import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
-export const AddSecurity = () => {
+export const UpdateSecurity = () => {
 
-  const {register,handleSubmit,formState:{errors}} = useForm()
-  const [lot, setlot] = useState([])
-  const id = useParams().id
-  const navigate = useNavigate()
+    const id =useParams().id
+    const [security, setsecurity] = useState([])
+    const { register, handleSubmit,formState:{errors}, setValue} = useForm();
+    const navigate = useNavigate()
 
-  const validationSchema = {
+
+    const validationSchema = {
     nameValidator:{
             required:{
                 value:true,
@@ -51,42 +52,55 @@ export const AddSecurity = () => {
                 message:"email is required*"
             }
         }
+
   }
 
-  const submitHandler = async(data)=>{
-    localStorage.setItem("parkingLotId",id)
-    data.securityId = localStorage.getItem("id")
-    const res = await axios.post("/joinsecurity",data)
+  const getSecurity = async()=>{
+
+    const res = await axios.get("/security/" + id)
     console.log(res.data)
-    const updateJobActive = await axios.post("/updatejobactive/"+localStorage.getItem("id"))
-    console.log(updateJobActive.data)
-    if(res.status===201){
-              Swal.fire({
-                title: "Your Joinig is Suucessfully!",
-                icon: "success",
-                
-              });
-              navigate("/security/viewslotbooked"); // Redirect to Login Page
+    const sec = res.data.data
     
-              
-            }
+    setValue("name",sec.name)
+    setValue("email",sec.email)
+    setValue("age",sec.age)
+    setValue("mobile",sec.mobile)
+     
+
 
   }
-  const getParkingLotById = async()=>{
-        
-        const res =await axios.get("/displayparkinglot/"+ id)
-        console.log(res.data.data)
-        setlot(res.data.data)
-  }
-    useEffect(()=>{
-        getParkingLotById()
-    },[])
+
+useEffect(()=>{
+    getSecurity()
+})
+
+const submitHandler = async (data) => {
+    
+    console.log(data)
+    const res = await axios.put("/updatesecurity/" + id, data);
+    // localStorage.setItem("parkingLotId",res.data.data._id)
+    console.log(res.data);
+    
+    if(res.status===201){
+          
+        Swal.fire({
+          title: "Security Updated!",
+          icon: "success",
+          
+        });
+          
+        navigate("/adminpanel/viewsecurity"); // Redirect to Login Page
+      
+    }
+  };
+
+
   return (
-     <div className="container mt-5">
+    <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div className="card p-4 shadow">
-            <h2 className="text-center mb-4">Join at {lot.name}</h2>
+            <h2 className="text-center mb-4">Update Security</h2>
             <form onSubmit={handleSubmit(submitHandler)}>
               <div className="mb-3">
                 <label className="form-label">Full Name</label>

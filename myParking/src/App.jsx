@@ -1,6 +1,7 @@
 // import { useState } from 'react'
 
 // import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Login } from './component/common/Login'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Registration } from './component/common/Registration'
@@ -36,6 +37,13 @@ import { ViewCustomers } from './component/admin/ViewCustomers'
 import { ViewParkingOwner } from './component/admin/ViewParkingOwner'
 import { ViewSecurity } from './component/admin/ViewSecurity'
 import { Payment } from './component/user/Payment.Jsx'
+import { AboutUs } from './component/user/AboutUs'
+import { SuccessedBooked } from './component/securities/SuccessedBooked'
+import { ViewParkingLots } from './component/admin/ViewParkingLots'
+import { UpdateLot } from './component/admin/UpdateLot'
+import { AdminHome } from './component/admin/AdminHome'
+import { ViewBooking } from './component/admin/ViewBooking';
+import { UpdateSecurity } from './component/admin/UpdateSecurity';
 
 function App() {
 
@@ -75,6 +83,7 @@ function App() {
             <Route path='displayslot/parkingbook' element={<ParkingBooking></ParkingBooking>}></Route>
             <Route path='displayslot/vehicle' element={<Vehicle></Vehicle>}/>
             <Route path='' element={<UserHome></UserHome>}/>
+            <Route path='aboutUs' element={<AboutUs></AboutUs>}></Route>
             <Route path='contactus' element={<ContactUs></ContactUs>}></Route>
             <Route path='displayslot' element={<DisplayParkingSlot></DisplayParkingSlot>}/>
           </Route>
@@ -95,12 +104,18 @@ function App() {
               <Route path='addsecurity/:id' element={<AddSecurity></AddSecurity>}></Route>
               <Route path='viewslotbooked' element={<ViewSlotBooked></ViewSlotBooked>}></Route>
               <Route path='viewparkinglots' element={<DisplayParkingLot></DisplayParkingLot>}></Route>
+              <Route path='successedbooked' element={<SuccessedBooked></SuccessedBooked>}></Route>
           </Route>
         </Route>
             <Route path='adminpanel' element={<AdminSidebar></AdminSidebar>}>
+              <Route index element={<AdminHome></AdminHome>}></Route>
               <Route path='viewcustomers' element={<ViewCustomers></ViewCustomers>}></Route>
               <Route path='viewparkingowner' element={<ViewParkingOwner></ViewParkingOwner>}></Route>
               <Route path='viewsecurity' element={<ViewSecurity></ViewSecurity>}></Route>
+              <Route path='viewparkinglots' element={<ViewParkingLots></ViewParkingLots>}></Route>
+              <Route path='updatelot/:id' element={<UpdateLot></UpdateLot>}></Route>
+              <Route path='updatesecurity/:id' element={<UpdateSecurity></UpdateSecurity>}></Route>
+              <Route path='parkingbook' element={<ViewBooking></ViewBooking>}></Route>
             </Route>
         <Route path='' element={<PrivateRoutes></PrivateRoutes>}>
         </Route>

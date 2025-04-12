@@ -17,7 +17,87 @@ export const ParkingBooking = () => {
   const [fourWheelerSlotAvl, setfourWheelerSlotAvl] = useState(0)
   const [TwoWheelerBookStatus, setTwoWheelerBookStatus] = useState(false)
   const [FourWheelerBookStatus, setFourWheelerBookStatus] = useState(false)
+  const [orderDetails, setOrderDetails] = useState(null);
+  const handleCreateOrder = async () => {
+    try {
+      const order = await axios.post("/payment/create_order",
+        {
+          amount: 1,
+          currency: "INR",
+          receipt: "receipt_order_123",
+        }
+      );
 
+      setOrderDetails(order.data);
+      displayRazorpay(order.data);
+    } catch (error) {
+      console.error("Order creation failed:", error);
+    }
+  };
+
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const displayRazorpay = async (orderData) => {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+
+    if (!res) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
+    const user = await axios.get("/users/"+localStorage.getItem("id"))
+    console.log(user.data)
+    const options = {
+      key: "rzp_test_Rvw64YFpVeyrZN",
+      amount: orderData.amount,
+      currency: orderData.currency,
+      name: "My Parking",
+      description: "Test Transaction",
+      order_id: orderData.id,
+      handler: async function (response) {
+        const res = await axios.post(
+          "/payment/verify_order",
+          {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          }
+        );
+
+        if (res.data.status === "success") {
+          //database order table:
+          //orderId,
+          //rporderid
+          //paymentid
+          //amount
+          //statusc: sucess
+          alert("Payment verified successfully!");
+        } else {
+          alert("Payment verification failed.");
+        }
+      },
+      prefill: {
+        name: "Test User",
+        email: "test@example.com",
+        contact: user.data.data.mobile,
+      },
+      theme: {
+        color: "#61dafb",
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
 
 
   const handleStartTimeChange = (e) => {
@@ -177,13 +257,18 @@ export const ParkingBooking = () => {
             </div>
             
             
-            <div className="mb-3">
+            {/* <div className="mb-3">
                 <label for="floatingInput">Payment Method</label>
                 <input type="text" className="form-control w-50" {...register("paymentMethod")} id="floatingInput" placeholder="payment method"/>
-            </div>
+            </div> */}
             
-            <div className='input-group w-50 mb-5 '>
-                <input type='submit' className='btn btn-success w-100 fs-6' value="Book"/>
+              {/* onClick={handleCreateOrder} */}
+            <div className='text-center w-50 mb-5 '>
+                <button
+                  className='btn btn-primary w-100'
+                >
+                  Book
+                </button>
 
             </div>
         </form>

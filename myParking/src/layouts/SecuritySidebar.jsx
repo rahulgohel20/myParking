@@ -17,6 +17,7 @@ export const SecuritySidebar = () => {
       const res = await axios.get("/users/"+id)
       console.log(res.data  )
       setsecurity(res.data.data)
+      
   }
   
   useEffect(()=>{
@@ -80,6 +81,18 @@ export const SecuritySidebar = () => {
                   </p>
                 </Link>
                 <hr className="text-light"/>
+                {security.jobActive?<div>
+
+                  <Link to={security.jobActive?"successedbooked":""} className="nav-link active text-decoration-none text-white">
+                    <FontAwesomeIcon icon={faEye}/>
+                    <p>
+                      {security.jobActive ? "Successed Booked" : ""}
+                    </p>
+                  </Link>
+                  <hr className="text-light"/>
+                </div>
+                :""}
+                
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <Link to="viewlots" className="nav-link active text-white">

@@ -1,17 +1,15 @@
-import axios from 'axios';
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import Swal from 'sweetalert2';
+import { Link, useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
-export const ViewParkingLot = () => {
-
+export const ViewParkingLots = () => {
     const [lots, setlots] = useState([])
     const navigate = useNavigate()
   
     const getAllLots = async () => {
     const id = localStorage.getItem("id")
-    const res = await axios.get("/parkinglot/"+id);
+    const res = await axios.get("/parkinglot");
     console.log(res.data.data)
   
     setlots(res.data.data);
@@ -45,8 +43,6 @@ export const ViewParkingLot = () => {
   useEffect(() => {
     getAllLots();
   }, []);
-
-    
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
@@ -65,6 +61,7 @@ export const ViewParkingLot = () => {
                     <th>Other Info</th>
                     <th>Hourly Charge 2 Wheeler</th>
                     <th>Hourly Charge 4 Wheeler</th>
+                    <th colSpan="2">Action</th>
                     
                   </tr>
                 </thead>
@@ -82,6 +79,8 @@ export const ViewParkingLot = () => {
                         <td>{lot.HourlyChargeTwoWheeler}</td>
                         <td>{lot.HourlyChargeFourWheeler}</td>
                         
+                        <td><Link to={`/adminpanel/updatelot/${lot._id}`}><input type='submit' className='btn btn-warning' value="Update"/></Link></td>
+                        <td><Link className="btn btn-danger" onClick={()=>{deleteLot(lot._id)}}>Delete</Link></td>
 
                       </tr>
                       // }
@@ -99,7 +98,6 @@ export const ViewParkingLot = () => {
           </div>
         </div>
       </div>
-      <ToastContainer></ToastContainer>
 
     </div>
   )

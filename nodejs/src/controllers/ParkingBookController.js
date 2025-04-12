@@ -28,6 +28,7 @@ const getParkingBookById = async(req,res)=>{
     })
 }
 
+
 const getParkingBook = async(req,res)=>{
     const parkingLotId = req.params.parkingLotId
     const foundBooked = await parkingBookModel.find({parkingLotId:parkingLotId}).populate("userId").populate("parkingLotId").populate("vehicleId")
@@ -126,6 +127,23 @@ const getParkingSlotBookedByStateCityAreaLotId =async (req,res)=>{
     }
 }
 
+const totalSlotBooked = async(req,res)=>{
+    try{
+        const slotBooked = await parkingBookModel.countDocuments();
+        res.status(201).json({
+            message:"total Slot Booked fetched..",
+            data:slotBooked
+        })
+
+    }
+    catch(err){
+        res.status(500).json({
+            message:err
+        })
+    }
+}
+
+
 module.exports = {
-    parkingBook,deleteParkingBook,getAllParkingBook,getParkingBook,getParkingSlotBookedByStateCityAreaLotId,updatePaymentStatus,updateCheckout,getParkingBookById
+    parkingBook,deleteParkingBook,getAllParkingBook,getParkingBook,getParkingSlotBookedByStateCityAreaLotId,updatePaymentStatus,updateCheckout,getParkingBookById,totalSlotBooked
 }
